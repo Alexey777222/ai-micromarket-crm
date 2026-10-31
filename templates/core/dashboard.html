@@ -1,0 +1,38 @@
+{% extends "core/base.html" %}
+{% block title %}Дашборд — MicroMarket Control{% endblock %}
+{% block content %}
+<div class="title-row">
+  <div><h1>{{ organization.name }}</h1><p>Показатели за последние 30 дней</p></div>
+  <form method="post" action="{% url 'forecasts_generate' %}">{% csrf_token %}<button>Рассчитать пополнение</button></form>
+</div>
+
+<section class="cards">
+  <article><span>Холодильников</span><strong>{{ fridge_count }}</strong></article>
+  <article><span>Выручка</span><strong>{{ revenue|floatformat:0 }} ₽</strong></article>
+  <article><span>Валовая прибыль</span><strong>{{ gross_profit|floatformat:0 }} ₽</strong><small>маржа {{ gross_margin|floatformat:1 }}%</small></article>
+  <article><span>Списания</span><strong>{{ writeoff_cost|floatformat:0 }} ₽</strong><small>{{ writeoff_percent|floatformat:1 }}% выручки</small></article>
+</section>
+
+<div class="grid">
+  <section class="panel">
+    <h2>Рекомендации на пополнение{% if forecast_date %} на {{ forecast_date|date:"d.m.Y" }}{% endif %}</h2>
+    <table><thead><tr><th>Точка</th><th>Товар</th><th>Количество</th></tr></thead><tbody>
+      {% for item in forecasts %}<tr><td>{{ item.fridge.name }}</td><td>{{ item.product.name }}</td><td>{{ item.replenish_quantity }}</td></tr>
+      {% empty %}<tr><td colspan="3">Нажмите «Рассчитать пополнение».</td></tr>{% endfor %}
+    </tbody></table>
+  </section>
+  <section class="panel">
+    <h2>Истекает в течение 48 часов</h2>
+    <table><thead><tr><th>Товар</th><th>Партия</th><th>Годен до</th></tr></thead><tbody>
+      {% for batch in expiring %}<tr><td>{{ batch.product.name }}</td><td>{{ batch.batch_number }}</td><td>{{ batch.expires_at|date:"d.m H:i" }}</td></tr>
+      {% empty %}<tr><td colspan="3">Рисков не найдено.</td></tr>{% endfor %}
+    </tbody></table>
+  </section>
+</div>
+
+<div class="grid">
+  <section class="panel"><h2>Выручка по точкам</h2><table><tbody>{% for row in by_fridge %}<tr><td>{{ row.fridge__name }}</td><td>{{ row.revenue|floatformat:0 }} ₽</td></tr>{% empty %}<tr><td>Нет продаж.</td></tr>{% endfor %}</tbody></table></section>
+  <section class="panel"><h2>Последние импорты</h2><table><tbody>{% for job in imports %}<tr><td>{{ job.filename }}</td><td><span class="badge">{{ job.get_status_display }}</span></td><td>{{ job.created_at|date:"d.m H:i" }}</td></tr>{% empty %}<tr><td>Импортов пока нет.</td></tr>{% endfor %}</tbody></table></section>
+</div>
+{% endblock %}
+

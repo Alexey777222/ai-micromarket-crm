@@ -1,0 +1,27 @@
+{% extends "core/base.html" %}
+{% block title %}{{ title }} — MicroMarket Control{% endblock %}
+{% block content %}
+<div class="title-row"><div><h1>{{ title }}</h1><p>{{ organization.name }}</p></div>
+{% if section == "forecasts" %}<form method="post" action="{% url 'forecasts_generate' %}">{% csrf_token %}
+<button>Рассчитать пополнение</button></form>{% endif %}</div>
+<section class="panel">
+  <form method="get" class="search-bar">
+    <label for="search">Поиск</label>
+    <input id="search" type="search" name="q" value="{{ q }}" maxlength="100" placeholder="Название или код">
+    <button>Найти</button>
+  </form>
+  {% if section == "stock" %}<p>Остатки рассчитаны по движениям товаров. Отрицательное значение требует сверки; просроченные партии показаны для контроля, а не для продажи.</p>{% endif %}
+  <p>Найдено: {{ page.paginator.count }} · Часовой пояс сервера: {% now "T" %}</p>
+  <div class="table-scroll" role="region" aria-label="{{ title }}" tabindex="0">
+    <table><thead><tr>{% for heading in headers %}<th>{{ heading }}</th>{% endfor %}</tr></thead>
+      <tbody>{% for row in rows %}<tr>{% for value in row %}<td>{{ value }}</td>{% endfor %}</tr>
+      {% empty %}<tr><td colspan="{{ headers|length }}">Записей не найдено.</td></tr>{% endfor %}</tbody>
+    </table>
+  </div>
+  <nav class="pagination" aria-label="Страницы">
+    {% if page.has_previous %}<a href="?q={{ q|urlencode }}&amp;page={{ page.previous_page_number }}">← Назад</a>{% endif %}
+    <span>Страница {{ page.number }} из {{ page.paginator.num_pages }}</span>
+    {% if page.has_next %}<a href="?q={{ q|urlencode }}&amp;page={{ page.next_page_number }}">Далее →</a>{% endif %}
+  </nav>
+</section>
+{% endblock %}

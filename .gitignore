@@ -1,0 +1,43 @@
+# Environment & Secrets
+.env
+.env.server
+.env.*.local
+
+# TLS & Backups
+deploy/tls/
+backups/
+*.zip
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+*.egg
+*.pyo
+
+# Django
+*.sqlite3
+staticfiles/
+media/
+
+# Testing
+.pytest_cache/
+.ruff_cache/
+
+# IDE
+.vscode/settings.json
+.vscode/*.code-snippets
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

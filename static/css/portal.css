@@ -1,0 +1,15 @@
+header{height:auto;min-height:72px;flex-wrap:wrap;padding:18px 4vw;gap:20px}
+header nav{flex-wrap:wrap;gap:12px 20px;font-size:14px}
+a{color:#175db1}header a{color:#fff}
+.account-bar{display:flex;align-items:center;justify-content:flex-end;gap:18px;flex-wrap:wrap;font-size:13px;color:#596b80;margin-bottom:22px}
+.account-bar span{margin-right:auto}.secondary{background:#e3eaf4;color:#173453}
+.login-panel{margin:60px auto}.eyebrow{letter-spacing:2px;color:#1769e0;font-size:12px}
+input,select{font:inherit;border:1px solid #bbc8d9;border-radius:7px;padding:9px;max-width:100%}
+.search-bar{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.table-scroll{overflow-x:auto;width:100%}.table-scroll table{min-width:600px}
+.panel{min-width:0;overflow-x:auto}td{overflow-wrap:anywhere}
+.pagination{display:flex;gap:20px;flex-wrap:wrap;margin-top:24px}
+footer{text-align:center;color:#64748b;padding:30px 20px;font-size:13px}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid #db9500;outline-offset:3px}
+.errorlist{color:#9c1428}.helptext{font-size:13px;color:#536579}
+@media(max-width:520px){main{padding:0 12px}.account-bar{justify-content:flex-start}.cards strong{font-size:25px}.login-panel{margin:20px auto}.search-bar input{width:100%}}

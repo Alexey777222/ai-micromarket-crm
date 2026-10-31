@@ -1,0 +1,18 @@
+{% extends "core/base.html" %}
+{% block title %}Импорт продаж{% endblock %}
+{% block content %}
+<h1>Импорт продаж</h1>
+<p>Файл сначала полностью проверяется. При критической ошибке база не изменяется.</p>
+<section class="panel form-panel">
+  <form method="post" enctype="multipart/form-data">{% csrf_token %}{{ form.as_p }}<button>Проверить и импортировать</button></form>
+</section>
+<section class="panel">
+  <h2>История</h2>
+  <table><thead><tr><th>Файл</th><th>Статус</th><th>Строк</th><th>Ошибок</th><th>Дубли</th></tr></thead><tbody>
+  {% for job in jobs %}<tr><td>{{ job.filename }}</td><td>{{ job.get_status_display }}</td><td>{{ job.total_rows }}</td><td>{{ job.error_rows }}</td><td>{{ job.duplicate_rows }}</td></tr>
+  {% empty %}<tr><td colspan="5">Импортов пока нет.</td></tr>{% endfor %}
+  </tbody></table>
+  {% for job in jobs %}{% if job.error_report %}<details><summary>Ошибки {{ job.filename }}</summary><pre>{{ job.error_report }}</pre></details>{% endif %}{% endfor %}
+</section>
+{% endblock %}
+

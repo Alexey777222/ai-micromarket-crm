@@ -1,0 +1,11 @@
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "config.settings"
+python_files = ["test_*.py"]
+
+[tool.ruff]
+line-length = 180
+target-version = "py312"
+exclude = [".venv", "venv", "staticfiles", "__pycache__", "core/migrations"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]

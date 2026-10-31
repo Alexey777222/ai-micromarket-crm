@@ -1,0 +1,14 @@
+{% extends "core/base.html" %}
+{% block title %}Вход — MicroMarket Control{% endblock %}
+{% block content %}
+<section class="panel form-panel login-panel">
+  <p class="eyebrow">ЗАКРЫТЫЙ ПИЛОТ</p>
+  <h1>Вход в MicroMarket Control</h1>
+  <p>Учётная запись выдаётся администратором. Самостоятельной регистрации нет.</p>
+  <form method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <input type="hidden" name="next" value="{{ next }}">
+    <button type="submit">Войти</button>
+  </form>
+</section>
+{% endblock %}

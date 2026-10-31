@@ -1,0 +1,36 @@
+{% load static %}
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}MicroMarket Control{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/app.css' %}">
+  <link rel="stylesheet" href="{% static 'css/portal.css' %}">
+</head>
+<body>
+  <header>
+    <a class="brand" href="/">MicroMarket Control</a>
+    {% if user.is_authenticated %}
+      <nav aria-label="Основная навигация">
+        <a href="/">Обзор</a><a href="/records/fridges/">Холодильники</a>
+        <a href="/records/products/">Товары</a><a href="/records/stock/">Остатки</a>
+        <a href="/records/batches/">Сроки</a><a href="/records/sales/">Продажи</a>
+        <a href="/records/writeoffs/">Списания</a><a href="/records/forecasts/">Пополнение</a>
+        <a href="/imports/sales/">Импорт</a>
+        {% if user.is_superuser %}<a href="/admin/">Администрирование</a>{% endif %}
+      </nav>
+    {% endif %}
+  </header>
+  <main>
+    {% if user.is_authenticated %}<div class="account-bar">
+      <span>{{ user.username }} · MicroMarket Control v0.2.0</span>
+      <a href="{% url 'password_change' %}">Изменить пароль</a>
+      <form method="post" action="{% url 'logout' %}">{% csrf_token %}<button class="secondary">Выйти</button></form>
+    </div>{% endif %}
+    {% for message in messages %}<div class="message {{ message.tags }}">{{ message }}</div>{% endfor %}
+    {% block content %}{% endblock %}
+  </main>
+  <footer>Пилотная версия · Демонстрационные данные не отражают результаты реального бизнеса.</footer>
+</body>
+</html>
